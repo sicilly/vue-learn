@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>起步</title>
+        <script src="https://unpkg.com/vue@next"></script>
+    </head>
+    <body>
+        <!-- 数据和DOM建立了关联，所有东西都是响应式的 -->
+        <div id="counter">
+            Counter: {{ counter }}
+        </div>
+
+        <div id="bind-attribute">
+            <!-- v-bind指令 -->
+            <!-- 数据绑定到attribute -->
+            <!-- 将这个元素节点的 title attribute 和当前活跃实例的 message property 保持一致 -->
+            <span v-bind:title="message">
+                鼠标悬停几秒钟查看此处动态绑定的提示信息！
+            </span>
+        </div>
+
+        <div id="event-handling">
+            <p>{{message}}</p>
+            <!-- v-on指令添加一个事件监听器 -->
+            <button v-on:click="reverseMessage">反转message</button>
+        </div>
+
+        <div id="two-way-binding">
+            <p>{{message}}</p>
+            <!-- v-model,实现表单输入和应用状态之间的双向绑定 -->
+            <input v-model="message"/>
+        </div>
+
+        <div id="conditional-rendering">
+            <!-- v-if 条件 -->
+            <!-- 说明数据可以绑定到DOM结构 -->
+            <span v-if="seen">现在你看到我了</span>
+        </div>
+
+        <div id="list-rendering">
+            <ol>
+                <!-- v-for 循环 -->
+                <li v-for="todo in todos">
+                    {{todo.text}}
+                </li>
+
+            </ol>
+        </div>
+    </body>
+    
+    <script>
+        // 声明式渲染
+        const Counter = {
+            data() {
+                return {
+                    counter: 0
+                }
+            },
+            mounted(){
+                setInterval(()=>{
+                    this.counter++
+                },1000)
+            }
+        }
+
+        const AttributeBinding={
+            data(){
+                return{
+                    message: 'You loaded this page on ' + new Date().toLocaleString()
+                }
+            }
+        }
+
+        // 处理用户输入
+        const EventHandling={
+            data(){
+                return{
+                    message:'Hello Vue.js'
+                }
+            },
+            methods:{
+                reverseMessage(){
+                    this.message=this.message
+                    .split('')
+                    .reverse()
+                    .join('')
+                }
+            }
+        }
+
+        const TwoWayBinding={
+            data(){
+                return{
+                    message:'Hello Vue!'
+                }
+            }
+        }
+
+        // 条件与循环
+        const conditionalRendering={
+            data(){
+                return{
+                    seen:true  // true才能看得到
+                }
+            }
+        }
+
+        const ListRendering={
+            data(){
+                return{
+                    todos:[
+                        {text:'Learn JavaScript'},
+                        {text:'Learn Vue'},
+                        {text:'Build something awesome'}
+                    ]
+                }
+            }
+        }
+
+
+        Vue.createApp(Counter).mount('#counter')
+        Vue.createApp(AttributeBinding).mount("#bind-attribute")
+        Vue.createApp(EventHandling).mount('#event-handling')
+        Vue.createApp(TwoWayBinding).mount('#two-way-binding')
+        Vue.createApp(conditionalRendering).mount('#conditional-rendering')
+        Vue.createApp(ListRendering).mount('#list-rendering')
+    </script>
+</html>
