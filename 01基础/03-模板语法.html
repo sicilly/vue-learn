@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>模板语法</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+    <div id="template">
+        <!-- 文本插值 -->
+        <p id="message">Message: {{ msg }}</p>
+        <!-- v-once只渲染元素和组件一次 -->
+        <p id="once" v-once>这个将不会改变：{{msg}}</p>
+        <input type="text" v-model="msg">
+
+
+    </div>
+
+    <div id="example1">
+        <!-- 原始html -->
+        <p>双大括号会把数据解释为普通文本,而非html代码:{{rawHtml}}</p>
+        <p>为了输出真正的 HTML,需要使用v-html 指令：<span v-html="rawHtml"></span></p>
+    </div>
+
+
+    <script>
+        const template={
+            data(){
+                return{
+                    msg:'hello world'
+                }
+            }
+        }
+        Vue.createApp(template).mount('#template')
+
+        const RenderHtmlApp={
+            data(){
+                return{
+                    rawHtml:'<span style="color: red">This should be red.</span>'
+                }
+            }
+        }
+        Vue.createApp(RenderHtmlApp).mount('#example1')
+    </script>
+ </body>
+
+</html>
