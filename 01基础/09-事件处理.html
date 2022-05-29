@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>事件处理</title>
+</head>
+<body>
+    <!-- 监听事件 -->
+    <div id="basic-event">
+        <button @click="counter += 1">Add 1</button>
+        <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
+
+    <!-- 事件处理方法 -->
+    <div id="event-with-method">
+        <!-- `greet` 是在下面定义的方法名 -->
+        <button @click="greet">Greet</button>
+    </div>
+
+    <!-- 内联处理器中的方法 -->
+    <!-- 除了直接绑定到一个方法，也可以在内联 JavaScript 语句中调用方法： -->
+    <div id="inline-handler">
+        <button @click="say('hi')">Say hi</button>
+        <button @click="say('what')">Say what</button>
+
+        <!-- 有时也需要在内联语句处理器中访问原始的 DOM 事件。可以用特殊变量 $event 把它传入方法： -->
+        <button @click="warn('Form cannot be submitted yet.', $event)">
+            Submit
+        </button>
+    </div>
+
+    <!-- 多事件处理器 -->
+    <div id="multi-event">
+        <!-- 这两个 one() 和 two() 将执行按钮点击事件 -->
+        <button @click="one($event), two($event)">
+            Submit
+        </button>
+    </div>
+
+    <!-- 事件修饰符 -->
+    <!--  v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。 -->
+    <!-- 阻止单击事件继续冒泡 -->
+    <a @click.stop="doThis"></a>
+
+    <!-- 提交事件不再重载页面 -->
+    <form @submit.prevent="onSubmit"></form>
+
+    <!-- 修饰符可以串联 -->
+    <a @click.stop.prevent="doThat"></a>
+
+    <!-- 只有修饰符 -->
+    <form @submit.prevent></form>
+
+    <!-- 添加事件监听器时使用事件捕获模式 -->
+    <!-- 即内部元素触发的事件先在此处理，然后才交由内部元素进行处理 -->
+    <div @click.capture="doThis">...</div>
+
+    <!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+    <!-- 即事件不是从内部元素触发的 -->
+    <div @click.self="doThat">...</div>
+
+    <!-- 点击事件将只会触发一次 -->
+    <a @click.once="doThis"></a>
+
+    <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发，   -->
+    <!-- 而不会等待 `onScroll` 完成，                    -->
+    <!-- 以防止其中包含 `event.preventDefault()` 的情况  -->
+    <div @scroll.passive="onScroll">...</div>
+
+    <!-- 按键修饰符 -->
+    <div id="keyup">
+        <!-- 只有在 `key` 是 `Enter` 时调用 `vm.submit()` -->
+        <input v-model="msg" @keyup.enter="submit" />
+
+        <!-- 处理函数只会在 $event.key 等于 'PageDown' 时被调用 -->
+        <input v-model="msg2" @keyup.page-down="onPageDown" />
+
+        <!-- 按键别名 -->
+        <!-- 系统修饰键 -->
+    </div>
+
+<script>
+    Vue.createApp({
+    data() {
+        return {
+        counter: 0
+        }
+    }
+    }).mount('#basic-event')
+
+    Vue.createApp({
+        data(){
+            return{
+                name:'Vue.js'
+            }
+        },
+        methods:{
+            greet(event){
+                alert('Hello '+this.name+'!')
+                if(event){
+                    alert(event.target.tagName)
+                }
+            }
+
+        }
+    }).mount('#event-with-method')
+
+    Vue.createApp({
+        methods:{
+            say(message){
+                alert(message)
+            },
+            warn(message, event) {
+                // 现在可以访问到原生事件
+                if (event) {
+                    console.log(event)
+                    event.preventDefault()
+                }
+                alert(message)
+            }
+        }
+    }).mount('#inline-handler')
+
+    Vue.createApp({
+        methods: {
+            one(event) {
+                // 第一个事件处理器逻辑...
+                console.log("第一个事件处理器逻辑")
+            },
+            two(event) {
+            // 第二个事件处理器逻辑...
+                console.log("第二个事件处理器逻辑")
+            }
+        }
+    }).mount('#multi-event')
+
+
+    Vue.createApp({
+        data(){
+            return{
+                msg:'',
+                msg2:''
+            }
+        },
+        methods: {
+            submit(event) {
+                console.log(this.msg)
+            },
+            onPageDown(event){
+                console.log(this.msg2)
+            }
+
+        }
+    }).mount('#keyup')   
+</script>
+
+</body>
+</html>
