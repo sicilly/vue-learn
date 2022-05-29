@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>条件渲染</title>
+</head>
+<body>
+    <!-- 用 v-for 把一个数组映射为一组元素 -->
+    <!-- 用 v-for 指令基于一个数组来渲染一个列表 -->
+    <!--  items 是源数据数组，而 item 则是被迭代的数组元素的别名 -->
+    <ul id="array-rendering">
+        <li v-for="item in items">
+          {{ item.message }}
+        </li>
+        <!-- 也可以用 of 替代 in 作为分隔符，因为它更接近 JavaScript 迭代器的语法 -->
+        <div v-for="item of items">
+            {{ item.message }}
+        </div>
+    </ul>
+
+    <!-- v-for 块中，我们可以访问所有父作用域的 property -->
+    <div id="array-with-index">
+        <li v-for="(item, index) in items">
+            {{parentMessage}} - {{index}} - {{ item.message }}
+        </li>
+        
+    </div>
+
+    <!-- 在 v-for 里使用对象 -->
+    <!-- 可以用 v-for 来遍历一个对象的 property -->
+    <ul id="v-for-object" class="demo">
+        <li v-for="value in myObject">
+            {{ value }}
+        </li>
+        <!-- 第二个参数为键key -->
+        <li v-for="(value, key) in myObject">
+            {{ key }}:{{ value }}
+        </li>
+        <!-- 第三个参数为索引index -->
+        <li v-for="(value, name, index) in myObject">
+            {{ index }}. {{ name }}: {{ value }}
+        </li>
+    </ul>
+
+    <!-- 数组更新检测 -->
+    <!-- 变更方法：push(),pop(),shift(),unshift(),splice(),sort(),reverse -->
+    <!-- 在控制台输入example1.items.push({ message: 'Baz' }) -->
+
+    <!-- 非变更方法： filter()、concat() 和 slice()不会变更原始数组，而总是返回一个新数组-->
+    <!--  example1.items = example1.items.filter(item => item.message.match(/Foo/))-->
+    
+    
+    <!-- 显示过滤/排序后的结果 -->
+    <div id="filter-demo">
+        <li v-for="n in evenNumbers" :keys="n">{{n}}</li>
+        <!-- 在计算属性不适用的情况下 (例如，在嵌套的 v-for 循环中) 你可以使用一个方法： -->
+        <ul v-for="numbers in sets">
+            <li v-for="n in even(numbers)" :keys="n">{{n}}</li>
+        </ul>
+    </div>
+
+    <!-- 在 v-for 里使用值的范围 -->
+    <div id="range" class="demo">
+        <span v-for="n in 10" :key="n">{{ n }} </span>
+    </div>
+
+
+    <!-- 在 <template> 中使用 v-for -->
+    <div id="dropdown">
+        <ul>
+            <template v-for="item in items" :key="item.msg">
+              <li>{{ item.msg }}</li>
+              <li class="divider" role="presentation"></li>
+            </template>
+          </ul>
+    </div>
+
+    <!-- 不推荐在同一元素上使用 v-if 和 v-for -->
+    <div id="todo_demo">
+        <!-- 把 v-for 移动到 <template> 标签中来修正 -->
+        <template v-for="todo in todos" :key="todo.name">
+            <li v-if="!todo.isComplete">
+              {{ todo.name }}
+            </li>
+          </template>
+    </div>
+
+<script>
+    const example1=Vue.createApp({
+        data() {
+            return {
+                items: [{ message: 'Foo' }, { message: 'Bar' }]
+            }
+        }
+    }).mount('#array-rendering')
+
+    Vue.createApp({
+        data() {
+            return {
+                parentMessage:'parent',
+                items: [{message:'Foo'},{message:'Bar'}]
+            }
+        }
+    }).mount('#array-with-index')
+
+    Vue.createApp({
+        data() {
+            return{
+                myObject:{
+                    title: 'How to do lists in Vue',
+                    author: 'Jane Doe',
+                    publishedAt: '2022-05-29'
+                }
+            }
+        }
+    }).mount('#v-for-object')
+
+    Vue.createApp({
+        data(){
+            return{
+                numbers: [ 1, 2, 3, 4, 5 ],
+                sets:[[ 1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]]
+            }
+        },
+        // 计算属性
+        computed:{
+            evenNumbers(){
+                return this.numbers.filter(number=>number%2===0)
+            }
+        },
+        // 方法
+        methods:{
+            even(numbers){
+                return numbers.filter(number=>number%2===0)
+            }
+        }
+    }).mount('#filter-demo')
+
+    Vue.createApp({}).mount('#range')
+
+    Vue.createApp({
+        data() {
+            return {
+                items: [{msg:'Foo'},{msg:'Bar'}]
+            }
+        }
+    }).mount('#dropdown')
+    
+    Vue.createApp({
+        data() {
+            return {
+                todos: [
+                    { name: '吃饭',isComplete:true }, 
+                    { name: '睡觉',isComplete:false }]
+            }
+        }
+    }).mount('#todo_demo')
+</script>
+
+</body>
+</html>
