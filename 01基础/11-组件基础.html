@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>组件基础</title>
+</head>
+<body>
+    <!-- 基本示例 -->
+    <div id="componets-demo">
+        <!-- 可以把组件作为一个根实例中的自定义元素来使用 -->
+        <button-counter></button-counter>
+        <!-- 组件的复用 -->
+        <!-- 可以将组件进行任意次数的复用： -->
+        <!-- 每个组件都会各自独立维护它的 count。因为你每用一次组件，就会有一个它的新实例被创建 -->
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+
+    <!-- <div id="blog-post-demo" class="demo">
+        <blog-post title="My journey with Vue"></blog-post>
+        <blog-post title="Blogging with Vue"></blog-post>
+        <blog-post title="Why Vue is so fun"></blog-post>
+    </div> -->
+
+    <div id="blog-posts-demo">
+        <!-- 想要为每篇博文渲染一个组件 -->
+        <blog-post
+        v-for="post in posts"
+        :key="post.id"
+        :title="post.title"
+        ></blog-post>
+    </div>
+
+    <div id="blog-posts-events-demo">
+        <!-- 控制所有博文的字号 -->
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <!-- @enlarge-text="postFontSize += 0.1" 监听器，父级组件能够接收事件并更新 postFontSize 的值 -->
+            <blog-post
+            @enlarge-text="postFontSize += $event"  
+            v-for="post in posts"
+            :key="post.id"
+            :title="post.title"
+            ></blog-post>
+        </div>
+
+    </div>
+
+    <!-- 在组件上使用 v-model -->
+    <!-- 没看懂 -->
+    <div id="vmodel-demo">
+        <custom-input v-model="searchText"></custom-input>
+    </div>
+
+    <!-- 通过插槽分发内容 -->
+    <div id="slots-demo" class="demo">
+        <alert-box>
+          Something bad happened.
+        </alert-box>
+    </div>
+
+
+    <!-- 动态组件 -->
+    <div id="dynamic-component-demo" class="demo">
+        <button
+           v-for="tab in tabs"
+           v-bind:key="tab"
+           v-bind:class="['tab-button', { active: currentTab === tab }]"
+           v-on:click="currentTab = tab"
+         >
+          {{ tab }}
+        </button>
+        <!-- 组件会在 `currentTabComponent` 改变时改变 -->
+        <component v-bind:is="currentTabComponent" class="tab"></component>
+    </div>
+
+
+<script>
+    // 创建一个Vue 应用
+    const app=Vue.createApp({})
+
+    // 组件的组织
+    // 定义一个名为 button-counter 的新全局组件
+    app.component('button-counter',{
+        data() {
+            return {
+                count:0
+            }
+        },
+        template:`
+            <button @click="count++">
+                You click me {{count}} times.
+            </button>
+        `
+    })
+    app.mount('#componets-demo')
+
+
+    // 通过 Prop 向子组件传递数据
+    const app2 = Vue.createApp({})
+    app2.component('blog-post', {
+        props: ['title'],
+        template: `<h4>{{ title }}</h4>`
+        })
+    app2.mount('#blog-post-demo')
+
+
+    // 在一个典型的应用中，你可能在 data 里有一个博文的数组：
+    const App={
+        data() {
+            return {
+                posts:[
+                    { id: 1, title: 'My journey with Vue' },
+                    { id: 2, title: 'Blogging with Vue' },
+                    { id: 3, title: 'Why Vue is so fun' }
+                ],
+                postFontSize: 1  // 引入一个辅助功能来放大博文的字号
+            }
+        }
+    }
+
+    const app3=Vue.createApp(App)
+    app3.component('blog-post',{
+        props:['title'],
+        template:`<h4>{{ title }}</h4>`
+    })
+    app3.mount('#blog-posts-demo')
+
+
+    // 在每篇博文正文之前添加一个按钮来放大字号
+    const app4=Vue.createApp(App)
+    app4.component('blog-post',{
+        props:['title'],
+        // 在组件的 emits 选项中列出已抛出的事件
+        emits: ['enlargeText'],
+        // 子组件可以通过调用内建的 $emit 方法并传入事件名称来触发一个事件：
+        template: `
+            <div class="blog-post">
+            <h4>{{ title }}</h4>
+            <button @click="$emit('enlargeText', 0.1)">
+                Enlarge text
+            </button>
+            </div>
+        `
+    })
+    app4.mount('#blog-posts-events-demo')
+
+
+    // 在组件上使用 v-model
+    const app5=Vue.createApp()
+    app5.component('custom-input',{
+        props: ['modelValue'],
+        emits: ['update:modelValue'],
+        template: `
+            <input
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
+            >
+        `
+    })
+    app5.mount('#vmodel-demo')
+
+    const app6 = Vue.createApp({})
+
+    app6.component('alert-box', {
+    // 使用 <slot> 作为我们想要插入内容的占位符
+    template: `
+        <div class="demo-alert-box">
+        <strong>Error!</strong>
+        <slot></slot>
+        </div>
+    `
+    })
+
+    app6.mount('#slots-demo')
+
+    const app7 = Vue.createApp({
+        data() {
+            return {
+            currentTab: 'Home',
+            tabs: ['Home', 'Posts', 'Archive']
+            }
+        },
+        computed: {
+            currentTabComponent() {
+                return 'tab-' + this.currentTab.toLowerCase()
+            }
+        }
+        })
+
+        app7.component('tab-home', {
+            template: `<div class="demo-tab">Home component</div>`
+        })
+        app7.component('tab-posts', {
+            template: `<div class="demo-tab">Posts component</div>`
+        })
+        app7.component('tab-archive', {
+            template: `<div class="demo-tab">Archive component</div>`
+        })
+
+        app7.mount('#dynamic-component-demo')
+
+</script>
+
+</body>
+</html>
