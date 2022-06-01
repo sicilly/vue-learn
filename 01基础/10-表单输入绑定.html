@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>表单输入绑定</title>
+</head>
+<body>
+<div id="demo1">
+    <!-- 基础用法 -->
+    <!-- 文本 -->
+    <input v-model="message" placeholder="edit me"/>
+    <p>message is:{{message}}</p>
+
+    <!-- 多行文本 -->
+    <span>Multiline message is:</span>
+    <p style="white-space: pre-line;">{{ message2 }}</p>
+    <!-- 插值在 textarea 中不起作用，请使用 v-model 来代替 -->
+    <textarea v-model="message2" placeholder="add multiple lines"></textarea>
+
+    <!-- 单个复选框，绑定到布尔值： -->
+    <input type="checkbox" id="checkbox" v-model="checked"/>
+    <label for="checkbox">{{ checked }}</label>
+
+</div>
+
+    <!-- 多个复选框，绑定到同一个数组： -->
+    <div id="v-model-multiple-checkboxes">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+        <label for="mike">Mike</label>
+        <br />
+        <span>Checked names: {{ checkedNames }}</span>
+      </div>
+
+      <!--单选框 (Radio)  -->
+      <div id="v-model-radiobutton">
+        <input type="radio" id="one" value="One" v-model="picked" />
+        <label for="one">One</label>
+        <br />
+        <input type="radio" id="two" value="Two" v-model="picked" />
+        <label for="two">Two</label>
+        <br />
+        <span>Picked: {{ picked }}</span>
+      </div>
+
+      <!-- 选择框 (Select) -->
+      <div id="v-model-select" class="demo">
+        <select v-model="selected">
+          <option disabled value="">Please select one</option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+
+        <br>
+        <!-- 多选时 (绑定到一个数组)： -->
+        <select v-model="selected2" multiple>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
+          <br />
+          <span>Selected: {{ selected2 }}</span>
+      </div>
+
+      <!-- 用 v-for 渲染的动态选项： -->
+      <div id="v-model-select-dynamic" class="demo">
+        <select v-model="selected">
+          <option v-for="option in options" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+      </div>
+
+      <!-- 值绑定 看不懂-->
+      <div id="demo2">
+        <!-- 当选中时，`picked` 为字符串 "a" -->
+        <input type="radio" v-model="picked" value="a" />
+
+        <!-- `toggle` 为 true 或 false -->
+        <input type="checkbox" v-model="toggle" />
+
+        <!-- 当选中第一个选项时，`selected` 为字符串 "abc" -->
+        <select v-model="selected">
+        <option value="abc">ABC</option>
+        </select>
+      </div>
+
+      <!-- 修饰符 -->
+      <!-- .lazy -->
+      <div id="demo3">
+            <!-- 在“change”时而非“input”时更新 -->
+            <input v-model.lazy="msg" />
+            <p>{{msg}}</p>
+
+            <!-- 没懂这两个 -->
+            <!-- .number -->
+            <!-- 如果想自动将用户的输入值转为数值类型，可以给 v-model 添加 number 修饰符 -->
+            <input v-model.number="age" type="text" />
+
+            <!-- .trim -->
+            <input v-model.trim="msg2" />
+
+      </div>
+
+
+
+<script>
+    Vue.createApp({
+        data(){
+            return{
+                message:'',
+                message2:'',
+                checked:true
+            }
+        }
+    }).mount('#demo1')
+
+    Vue.createApp({
+        data() {
+            return {
+            checkedNames: []
+            }
+        }
+    }).mount('#v-model-multiple-checkboxes')
+
+    Vue.createApp({
+        data() {
+            return {
+            picked: ''
+            }
+        }
+    }).mount('#v-model-radiobutton')
+
+    Vue.createApp({
+        data() {
+            return {
+            selected: '',
+            selected2: ''
+            }
+        }
+    }).mount('#v-model-select')
+
+
+
+    Vue.createApp({
+        data() {
+            return {
+            selected: 'A',
+            options: [
+                { text: 'One', value: 'A' },
+                { text: 'Two', value: 'B' },
+                { text: 'Three', value: 'C' }
+            ]
+            }
+        }
+    }).mount('#v-model-select-dynamic')
+
+    let vm=Vue.createApp({
+        data(){
+            return{
+                toggle:'yes',
+                pick:'a',
+
+
+            }
+        }
+    }).mount('#demo2')
+
+    let vm3=Vue.createApp({
+        data(){
+            return{
+                msg:''
+
+
+            }
+        }
+    }).mount('#demo3')
+</script>
+
+</body>
+</html>
