@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .inner {
+            line-height: 100px;
+            background-color: aliceblue;
+            font: size 13px;
+            text-align: center;
+        }
+
+        .outer {
+            background-color: bisque;
+            padding: 50px;
+            font-size: 13px;
+        }
+
+        .box {
+            background-color: coral;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h4>(1).prevent事件修饰符的应用场景(阻止默认行为：跳转、提交表单等)</h4>
+        <a href="https://www.baidu.com" @click.prevent="onLinkClick">baidu</a>
+
+        <hr>
+
+        <h4>(2).stop事件修饰符的应用场景（阻止事件冒泡）</h4>
+        <div class="outer" @click="onOuterClick">
+            外层的div
+            <div class="inner" @click.stop="onInnerClick">内层的div</div>
+        </div>
+
+        <hr>
+        <h4>(3).capture事件修饰符的应用场景（以捕获模式触发当前的事件处理函数）</h4>
+        <div class="outer" @click="onOuterClick">
+            外层的div
+            <div class="inner" @click.capture="onInnerClick">内部的div</div>
+        </div>
+
+        <hr>
+
+        <h4>(4).once事件修饰符的应用场景（绑定的事件只触发一次）</h4>
+        <div class="inner" @click.once="onInnerClick">内部的div</div>
+
+        <hr />
+
+        <h4>(5) .self 事件修饰符的应用场景（只有在event.target是当前元素自身时触发事件处理函数）</h4>
+        <div class="box" @click="onBoxClick">
+            最外层的 box
+            <div class="outer" @click.self="onOuterClick">
+                中间的 div
+                <div class="inner" @click="onInnerClick">内部的 div</div>
+            </div>
+        </div>
+
+        <hr />
+    </div>
+    <script src="./lib/vue.js"></script>
+    <script>
+        const vm = new Vue(
+            {
+                el: '#app',
+                methods: {
+                    //点击超链接的事件处理函数
+                    onLinkClick(){
+                        alert('ok')
+                    },
+                    //点击了外层的div
+                    onOuterClick(){
+                        console.log('触发了outer的click事件处理函数')
+                    },
+                    //点击了内部的div
+                    onInnerClick(){
+                        console.log('触发了inner的click事件处理函数')
+                    },
+                    onBoxClick(){
+                        console.log('触发了box的click事件处理函数')
+                    }
+                }
+            }
+        )
+    </script>
+</body>
+
+</html>
