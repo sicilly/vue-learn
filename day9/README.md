@@ -430,33 +430,12 @@ vue.config.js：
 
 ```javascript
 module.exports = {
-
-
-
     devServer: {
-
-
-
         port:3000,  //修改dev期间的端口号
-
-
-
         //open:true,  //自动打开浏览器
-
-
-
         //当前项目在开发调试阶段，会把任何位置请求（没有匹配到静态资源文件的请求）代理到以下地址
-
-
-
         proxy: 'https://www.escook.cn',
-
-
-
     },
-
-
-
 }
 ```
 
@@ -464,57 +443,18 @@ module.exports = {
 
 ```html
 <template>
-
-
-
   <div>
-
-
-
     <!-- 路由占位符 -->
-
-
-
     <router-view></router-view>
-
-
-
   </div>
-
-
-
 </template>
-
-
-
  
-
-
-
 <script>
-
-
-
 export default {
-
-
-
   name: 'MyApp',
-
-
-
 }
-
-
-
 </script>
-
-
-
  
-
-
-
 <style lang="less" scoped></style>
 ```
 
@@ -522,249 +462,66 @@ export default {
 
 ```javascript
 import Vue from 'vue'
-
-
-
 import App from './App.vue'
-
-
-
 import router from './router/index.js'
-
-
-
 // 1、导入axios
-
-
-
 import axios from 'axios'
-
-
-
  
-
-
-
 // 导入element-ui 及其样式表
-
-
-
 import ElementUI from 'element-ui'
-
-
-
 import 'element-ui/lib/theme-chalk/index.css'
-
-
-
 import { Loading } from 'element-ui'
-
-
-
 // 将ElementUI安装位vue的插件
-
-
-
 Vue.use(ElementUI)
-
-
-
  
-
-
-
 // 不在终端里显示vue的提示消息
-
-
-
 Vue.config.productionTip = false
-
-
-
  
-
-
-
 // 声明格式化时间的全局过滤器
-
-
-
 Vue.filter('dateFormat', dtStr => {
-
-
-
   const dt = new Date(dtStr)
-
-
-
   const y = dt.getFullYear()
-
-
-
   const m = padZero(dt.getMonth() + 1)
-
-
-
   const d = padZero(dt.getDate())
-
-
-
   const hh = padZero(dt.getHours())
-
-
-
   const mm = padZero(dt.getMinutes())
-
-
-
   const ss = padZero(dt.getSeconds())
-
-
-
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-
-
-
 })
-
-
-
  
-
-
-
 // 补零的函数
-
-
-
 function padZero(n) {
-
-
-
   return n > 9 ? n : '0' + n
-
-
-
 }
-
-
-
  
-
-
-
 // 2、配置请求根路径
-
-
-
 //axios.defaults.baseURL = 'https://www.escook.cn'
-
-
-
 axios.defaults.baseURL = 'http://localhost:3000'
-
-
-
 // 3、通过Vue构造函数的原型对象，全局配置axios
-
-
-
 Vue.prototype.$http = axios
-
-
-
  
-
-
-
 // 配置请求拦截器
-
-
-
 let loadingInstance = null
-
-
-
 axios.interceptors.request.use(config => {
-
-
-
   // 展示 loading 效果
-
-
-
   loadingInstance = Loading.service({ fullscreen: true })
-
-
-
   // 这是固定写法，一定要return出去
-
-
-
   return config
-
-
-
 })
-
-
-
  
-
-
-
 // 配置响应拦截器
-
-
-
 axios.interceptors.response.use(response => {
-
-
-
   // 关闭 loading 效果
-
-
-
   loadingInstance.close()
-
-
-
   return response
-
-
-
 })
-
-
-
  
-
-
-
 const app=new Vue({
-
-
-
   render: h => h(App),
-
-
-
   //挂载路由模块
-
-
-
   router,
-
-
-
 })
-
-
-
  
-
-
-
 app.$mount('#app')
 ```
 
@@ -772,69 +529,21 @@ app.$mount('#app')
 
 ```javascript
 import Vue from 'vue'                       //1、导入Vue2的构造函数
-
-
-
 import VueRouter from 'vue-router'          //2、导入3.x路由的构造函数
-
-
-
  
-
-
-
 import UserList from '@/components/UserList.vue'    //3、导入需要使用路由切换的组件
-
-
-
 import UserDetail from '@/components/UserDetail.vue'
-
-
-
  
-
-
-
 Vue.use(VueRouter)                          //4、调用Vue.use()函数，把路由配置为Vue的插件
-
-
-
  
-
-
-
 const router = new VueRouter({              //5、创建路由对象
-
-
-
   routes: [                                 //5.1声明路由规则
-
-
-
     { path: '/', redirect: '/users' },
-
-
-
     { path: '/users', component: UserList },
-
-
-
     { path: '/users/:id', component: UserDetail, props: true },
-
-
-
   ],
-
-
-
 })
-
-
-
  
-
-
-
 export default router                       //6、向外共享路由对象
 ```
 
@@ -842,625 +551,160 @@ export default router                       //6、向外共享路由对象
 
 ```html
 <template>
-
-
-
   <div>
-
-
-
     <!-- 添加按钮 -->
-
-
-
     <el-button type="primary" @click="dialogVisible = true">添加新用户</el-button>
-
-
-
  
-
-
-
     <!-- 用户的表格 -->
-
-
-
     <el-table :data="userList" stripe border>
-
-
-
         <!-- 这是索引列 -->
-
-
-
         <el-table-column type="index" label="#"></el-table-column>
-
-
-
         <!-- 渲染姓名、年龄、头衔、创建时间列 -->
-
-
-
         <el-table-column label="姓名" prop="name"></el-table-column>
-
-
-
         <el-table-column label="年龄" prop="age"></el-table-column>
-
-
-
         <el-table-column label="头衔" prop="position"></el-table-column>
-
-
-
         <el-table-column label="创建时间">
-
-
-
             <!-- 作用域插槽 -->
-
-
-
             <!-- v-slot:default="scope" -->
-
-
-
             <!-- #default="scope" -->
-
-
-
             <!-- v-slot="scope" -->
-
-
-
             <template #default="scope">
-
-
-
             {{ scope.row.addtime | dateFormat }}
-
-
-
             </template>
-
-
-
         </el-table-column>
-
-
-
         <el-table-column label="操作">
-
-
-
             <!-- 作用域插槽 -->
-
-
-
             <template v-slot="{ row }">
-
-
-
             <div>
-
-
-
                 <router-link :to="'/users/' + row.id">详情</router-link>&nbsp;
-
-
-
                 <a href="#" @click.prevent="onRemove(row.id)">删除</a>
-
-
-
             </div>
-
-
-
             </template>
-
-
-
         </el-table-column>
-
-
-
     </el-table>
-
-
-
  
-
-
-
     <!-- 添加用户的对话框 -->
-
-
-
     <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%" @close="onDialogClosed">
-
-
-
         <!-- 添加用户的表单 -->
-
-
-
         <el-form :model="form" label-width="80px" :rules="formRules" ref="myaddForm">
-
-
-
             <!-- 采集用户的姓名 -->
-
-
-
             <el-form-item label="用户姓名" prop="name">
-
-
-
             <el-input v-model="form.name"></el-input>
-
-
-
             </el-form-item>
-
-
-
             <el-form-item label="用户年龄" prop="age">
-
-
-
             <el-input v-model.number="form.age"></el-input>
-
-
-
             </el-form-item>
-
-
-
             <el-form-item label="用户头衔" prop="position">
-
-
-
             <el-input v-model="form.position"></el-input>
-
-
-
             </el-form-item>
-
-
-
         </el-form>
-
-
-
         <span slot="footer" class="dialog-footer">
-
-
-
             <el-button @click="dialogVisible = false">取 消</el-button>
-
-
-
             <el-button type="primary" @click="onAddNewUser">确 定</el-button>
-
-
-
         </span>
-
-
-
     </el-dialog>
-
-
-
   </div>
-
-
-
 </template>
-
-
-
  
-
-
-
  
-
-
-
 <script>
-
-
-
 export default {
-
-
-
   name: 'UserList',
-
-
-
   data(){
-
-
-
     // 自定义验证函数：校验年龄
-
-
-
     let checkAge = (rule, value, cb) => {
-
-
-
         if (!Number.isInteger(value)) {
-
-
-
             return cb(new Error('请填写整数！'))
-
-
-
         }
-
-
-
         if (value > 100 || value < 1) {
-
-
-
             return cb(new Error('年龄必须在 1 到 100 之间！'))
-
-
-
         }
-
-
-
         cb() //验证通过
-
-
-
     }
-
-
-
     return{
-
-
-
         // 用户列表数据，默认为空数组
-
-
-
         userList:[],
-
-
-
         // 控制添加对话框的显示与隐藏
-
-
-
         dialogVisible: false,
-
-
-
         // 要采集的用户的信息对象
-
-
-
         form: {
-
-
-
             name: '',
-
-
-
             age: '',
-
-
-
             position: '',
-
-
-
         },
-
-
-
         // 表单的验证规则对象
-
-
-
         formRules: {
-
-
-
             name: [
-
-
-
             { required: true, message: '姓名是必填项', trigger: 'blur' },
-
-
-
             { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' },
-
-
-
             ],
-
-
-
             age: [
-
-
-
             { required: true, message: '年龄是必填项', trigger: 'blur' },
-
-
-
             { validator: checkAge, trigger: 'blur' },
-
-
-
             ],
-
-
-
             position: [
-
-
-
             { required: true, message: '头衔是必填项', trigger: 'blur' },
-
-
-
             { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' },
-
-
-
             ],
-
-
-
         },
-
-
-
     }    
-
-
-
   },
-
-
-
   created(){
-
-
-
       // 调用此方法，请求用户列表数据
-
-
-
       this.getUserList()
-
-
-
   },
-
-
-
   methods:{
-
-
-
     // 请求用户列表数据
-
-
-
     async getUserList(){
-
-
-
         const {data:res}=await this.$http.get('/api/users')
-
-
-
         if(res.status!==0) return console.log('用户列表数据请求失败!')
-
-
-
         this.userList=res.data
-
-
-
         console.log(this.userList)
-
-
-
     },
-
-
-
     // 监听对话框关闭的事件
-
-
-
     onDialogClosed() {
-
-
-
         // 拿到 Form 组件的引用，调用 resetFields 函数，即可重置表单
-
-
-
         this.$refs.myaddForm.resetFields()
-
-
-
     },
-
-
-
     // 用户点击了添加按钮
-
-
-
     onAddNewUser() {
-
-
-
         this.$refs.myaddForm.validate(async valid => {
-
-
-
             if (!valid) return
-
-
-
             // 需要执行添加的业务处理
-
-
-
             const { data: res } = await this.$http.post('/api/users', this.form)
-
-
-
             if (res.status !== 0) return this.$message.error('添加用户失败！')
-
-
-
             this.$message.success('添加成功！')
-
-
-
             this.dialogVisible = false
-
-
-
             this.getUserList()
-
-
-
         })
-
-
-
     },
-
-
-
     // 点击了删除的链接
-
-
-
     async onRemove(id) {
-
-
-
         // 询问用户是否删除
-
-
-
         const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-
-
-
             confirmButtonText: '确定',
-
-
-
             cancelButtonText: '取消',
-
-
-
             type: 'warning',
-
-
-
         }).catch(err => err)
-
-
-
  
-
-
-
         // 判断是否点击了确认按钮
-
-
-
         if (confirmResult !== 'confirm') return this.$message.info('取消了删除！')
-
-
-
  
-
-
-
         // 发起请求，删除指定 id 的数据
-
-
-
         const { data: res } = await this.$http.delete('/api/users/' + id)
-
-
-
         if (res.status !== 0) return this.$message.error('删除失败！')
-
-
-
         // 提示删除成功，并刷新列表数据
-
-
-
         this.$message.success('删除成功！')
-
-
-
         this.getUserList()
-
-
-
     },
-
-
-
   },
-
-
-
 }
-
-
-
 </script>
-
-
-
  
-
-
-
 <style lang="less" scoped>
-
-
-
 .el-table {
-
-
-
   margin-top: 15px;
-
-
-
 }
-
-
-
 </style>
 ```
 
@@ -1468,165 +712,45 @@ export default {
 
 ```html
 <template>
-
-
-
   <el-card class="box-card">
-
-
-
     <div slot="header" class="clearfix">
-
-
-
       <span>用户详情</span>
-
-
-
       <el-button style="float: right; padding: 3px 0" type="text" @click="goBack">返回</el-button>
-
-
-
     </div>
-
-
-
     <div class="text item">
-
-
-
       <p>姓名：{{ userInfo.name }}</p>
-
-
-
       <p>年龄：{{ userInfo.age }}</p>
-
-
-
       <p>头衔：{{ userInfo.position }}</p>
-
-
-
     </div>
-
-
-
   </el-card>
-
-
-
 </template>
-
-
-
  
-
-
-
 <script>
-
-
-
 export default {
-
-
-
   name: 'UserDetail',
-
-
-
   props: ['id'], // props传过来的是只读变量
-
-
-
   data() {
-
-
-
     return {
-
-
-
       userInfo: {},
-
-
-
     }
-
-
-
   },
-
-
-
   created() {
-
-
-
     this.getUserInfo()
-
-
-
   },
-
-
-
   methods: {
-
-
-
     async getUserInfo() {
-
-
-
       const { data: res } = await this.$http.get('/api/users/' + this.id)
-
-
-
       if (res.status !== 0) return this.$message.error('获取用户详情数据失败！')
-
-
-
       this.userInfo = res.data
-
-
-
       console.log(this.userInfo)
-
-
-
     },
-
-
-
     goBack() {
-
-
-
       this.$router.go(-1)
-
-
-
     },
-
-
-
   },
-
-
-
 }
-
-
-
 </script>
-
-
-
  
-
-
-
 <style lang="less" scoped></style>
 ```
 
