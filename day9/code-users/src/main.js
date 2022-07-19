@@ -3,7 +3,13 @@ import App from './App.vue'
 import router from './router'
 // 1、导入axios
 import axios from 'axios'
+// 导入element-ui 及其样式表
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
+// 将ElementUI安装位vue的插件
+Vue.use(ElementUI)
+// 不在终端里显示vue的提示消息
 Vue.config.productionTip = false
 // 2、配置请求根路径
 // axios.defaults.baseURL = 'https://www.escook.cn'
