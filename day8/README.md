@@ -64,7 +64,6 @@ router.get('/userlist', function (req, res) {/* 路由的处理函数 */ })
 router.post('/adduser', function (req, res) {/* 路由的处理函数 */ })
 
 module.exports = router
-1234567
 ```
 
 **前端路由**通俗易懂的理解就是：**Hash 地址**与**组件**之间的**对应关系**。
@@ -139,7 +138,6 @@ export default {
   components: { MyHome, MyMovie, MyAbout },
 }
 </script>
-1234567891011121314151617181920212223242526272829303132333435363738394041
 ```
 
 MyHome、MyMovie、MyAbout 组件：
