@@ -1,0 +1,19 @@
+:root {
+  font-size: 12px;
+}
+
+body {
+  padding: 8px;
+}
+/* 在 index.css 中，重写 router-link-active 的样式 */
+.router-link-active {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+/* 自定义路由高亮的 class 类 */
+.active-router {
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+}
