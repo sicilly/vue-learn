@@ -10,7 +10,7 @@ const router=new VueRouter({  //5、创建路由对象
     routes:[
         { path: '/', redirect: '/users' },
         { path: '/users', component: UserList }, 
-        { path: '/users/:id', component: UserDetail }, 
+        { path: '/users/:id', component: UserDetail, props:true },  // 开启props传参
     ]
 })
 
