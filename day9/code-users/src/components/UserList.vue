@@ -23,7 +23,7 @@
                 <!-- v-slot="scope" -->
                 <template v-slot="{ row }">
                 <div>
-                    <a href="#">详情</a>&nbsp;
+                    <router-link :to="'/users/' + row.id">详情</router-link>&nbsp;
                     <a href="#" @click.prevent="onRemove(row.id)">删除</a>
                 </div>
                 </template>
