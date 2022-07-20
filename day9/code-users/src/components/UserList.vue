@@ -21,7 +21,7 @@
                 <template>
                 <div>
                     <a href="#">详情</a>&nbsp;
-                    <a href="#">删除</a>
+                    <a href="#" @click.prevent="onRemove()">删除</a>
                 </div>
                 </template>
             </el-table-column>
@@ -113,11 +113,28 @@ export default {
                 if (!valid) return
                 // 需要执行添加的业务处理，this.form作为参数
                 const { data: res } = await this.$http.post('/api/users', this.form)
+                // 消息提示
                 if (res.status !== 0) return this.$message.error('添加用户失败！')
                 this.$message.success('添加成功！')
                 this.dialogVisible = false
                 this.getUserList()  // 重新获取用户数据
             })
+        },
+        // 点击了删除的链接
+        async onRemove() {
+            // 询问用户是否删除
+            const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }).catch(err => err)
+    
+            // 判断是否点击了确认按钮
+            if (confirmResult !== 'confirm') return this.$message.info('取消了删除！')
+
+            // 提示删除成功，并刷新列表数据
+            this.$message.success('删除成功！')
+
         },
     }
 }
