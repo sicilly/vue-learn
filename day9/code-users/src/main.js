@@ -11,6 +11,24 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 // 不在终端里显示vue的提示消息
 Vue.config.productionTip = false
+
+// 声明格式化时间的全局过滤器
+Vue.filter('dateFormat', dtStr => {
+  const dt = new Date(dtStr)
+  const y = dt.getFullYear()
+  const m = padZero(dt.getMonth() + 1)
+  const d = padZero(dt.getDate())
+  const hh = padZero(dt.getHours())
+  const mm = padZero(dt.getMinutes())
+  const ss = padZero(dt.getSeconds())
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+})
+
+// 补零的函数
+function padZero(n) {
+  return n > 9 ? n : '0' + n
+}
+
 // 2、配置请求根路径
 // axios.defaults.baseURL = 'https://www.escook.cn'
 axios.defaults.baseURL = 'http://localhost:3000'

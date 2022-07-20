@@ -7,7 +7,12 @@
         <el-table-column label="姓名" prop="name"></el-table-column>
         <el-table-column label="年龄" prop="age"></el-table-column>
         <el-table-column label="头衔" prop="position"></el-table-column>
-        <el-table-column label="创建时间" prop="addtime"></el-table-column>
+        <el-table-column label="创建时间">
+            <!-- 作用域插槽 -->
+            <template #default="scope">
+            {{ scope.row.addtime | dateFormat }}
+            </template>
+        </el-table-column>
     </el-table>
 </template>
 
