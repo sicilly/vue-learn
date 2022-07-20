@@ -13,6 +13,15 @@
             {{ scope.row.addtime | dateFormat }}
             </template>
         </el-table-column>
+         <el-table-column label="操作">
+            <!-- 作用域插槽 -->
+            <template>
+            <div>
+                <a href="#">详情</a>&nbsp;
+                <a href="#">删除</a>
+            </div>
+            </template>
+        </el-table-column>
     </el-table>
 </template>
 
