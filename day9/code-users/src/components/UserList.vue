@@ -18,10 +18,13 @@
             </el-table-column>
             <el-table-column label="操作">
                 <!-- 作用域插槽 -->
-                <template>
+                <!-- v-slot:default="scope" -->
+                <!-- #default="scope" -->
+                <!-- v-slot="scope" -->
+                <template v-slot="{ row }">
                 <div>
                     <a href="#">详情</a>&nbsp;
-                    <a href="#" @click.prevent="onRemove()">删除</a>
+                    <a href="#" @click.prevent="onRemove(row.id)">删除</a>
                 </div>
                 </template>
             </el-table-column>
@@ -121,7 +124,8 @@ export default {
             })
         },
         // 点击了删除的链接
-        async onRemove() {
+        async onRemove(id) {
+            console.log(id);
             // 询问用户是否删除
             const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -131,9 +135,12 @@ export default {
     
             // 判断是否点击了确认按钮
             if (confirmResult !== 'confirm') return this.$message.info('取消了删除！')
-
+            // 发起请求，删除指定 id 的数据
+            const { data: res } = await this.$http.delete('/api/users/' + id)
+            if (res.status !== 0) return this.$message.error('删除失败！')
             // 提示删除成功，并刷新列表数据
             this.$message.success('删除成功！')
+            this.getUserList()
 
         },
     }
