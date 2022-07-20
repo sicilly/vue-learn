@@ -29,7 +29,7 @@
         <!-- 添加用户的对话框 -->
         <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%">
             <!-- 添加用户的表单 -->
-            <el-form :model="form" label-width="80px">
+            <el-form :model="form" label-width="80px" :rules="formRules">
                 <!-- 采集用户的姓名 -->
                 <el-form-item label="用户姓名" prop="name">
                 <el-input v-model="form.name"></el-input>
@@ -63,7 +63,22 @@ export default {
                 name: '',
                 age: '',
                 position: '',
-            },          
+            },    
+            // 表单的验证规则对象
+            formRules: {
+                name: [
+                { required: true, message: '姓名是必填项', trigger: 'blur' },
+                { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' },
+                ],
+                age: [
+                { required: true, message: '年龄是必填项', trigger: 'blur' },
+                { trigger: 'blur' },
+                ],
+                position: [
+                { required: true, message: '头衔是必填项', trigger: 'blur' },
+                { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' },
+                ],
+            },      
         }
     },
     created(){
