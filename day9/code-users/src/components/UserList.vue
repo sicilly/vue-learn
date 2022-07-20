@@ -28,7 +28,19 @@
         </el-table>
         <!-- 添加用户的对话框 -->
         <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%">
-
+            <!-- 添加用户的表单 -->
+            <el-form :model="form" label-width="80px">
+                <!-- 采集用户的姓名 -->
+                <el-form-item label="用户姓名" prop="name">
+                <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="用户年龄" prop="age">
+                <el-input v-model.number="form.age"></el-input>
+                </el-form-item>
+                <el-form-item label="用户头衔" prop="position">
+                <el-input v-model="form.position"></el-input>
+                </el-form-item>
+            </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -45,7 +57,13 @@ export default {
         return{
             userList:[],
             // 控制添加对话框的显示与隐藏
-            dialogVisible: false,            
+            dialogVisible: false,  
+            // 要采集的用户的信息对象
+            form: {
+                name: '',
+                age: '',
+                position: '',
+            },          
         }
     },
     created(){
