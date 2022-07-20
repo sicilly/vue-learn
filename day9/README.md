@@ -51,7 +51,7 @@ vue ui
 
 ​    发布项目：在项目仪表盘的任务中，点击build里的“运行”将项目进行生产环境中的编译，把项目发送给后端程序员，后端程序员就可以对项目进行部署了。
 
-[Vue CLI🛠️ Vue.js 开发的标准工具![img](https://cli.vuejs.org/favicon.png)https://cli.vuejs.org/zh/](https://cli.vuejs.org/zh/)
+[Vue CLI🛠️ Vue.js 开发的标准工具](https://cli.vuejs.org/zh/)
 
 ------
 
@@ -767,3 +767,7 @@ Form 表单：[Element - The world's most popular Vue UI framework](https://elem
 Message 消息：[Element - The world's most popular Vue UI framework](https://element.eleme.cn/#/zh-CN/component/message)
 
 Message-Box 弹框：[Element - The world's most popular Vue UI framework](https://element.eleme.cn/#/zh-CN/component/message-box)
+
+# 总结
+
+![image-20220720163109598](https://picture-1308610694.cos.ap-nanjing.myqcloud.com/202207201631696.png)
