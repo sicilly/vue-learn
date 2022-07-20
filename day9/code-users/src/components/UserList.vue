@@ -43,7 +43,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="onAddNewUser">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -106,6 +106,13 @@ export default {
         onDialogClosed() {
             // 拿到 Form 组件的引用，调用 resetFields 函数，即可重置表单
             this.$refs.myaddForm.resetFields()
+        },
+        // 用户点击了添加按钮
+        onAddNewUser() {
+            this.$refs.myaddForm.validate(valid => {
+                console.log(valid)
+                if (!valid) return
+            })
         },
     }
 }
