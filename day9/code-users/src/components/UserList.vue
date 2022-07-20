@@ -53,6 +53,16 @@
 export default {
     name:'UserList',
     data(){
+        // 自定义验证函数：校验年龄
+        let checkAge = (rule, value, cb) => {
+            if (!Number.isInteger(value)) {
+                return cb(new Error('请填写整数！'))  // 返回一个错误对象
+            }
+            if (value > 100 || value < 1) {
+                return cb(new Error('年龄必须在 1 到 100 之间！'))
+            }
+            cb() //验证通过
+        }
         // 返回一个对象
         return{
             userList:[],
@@ -72,7 +82,7 @@ export default {
                 ],
                 age: [
                 { required: true, message: '年龄是必填项', trigger: 'blur' },
-                { trigger: 'blur' },
+                { validator: checkAge, checkAgetrigger: 'blur' },
                 ],
                 position: [
                 { required: true, message: '头衔是必填项', trigger: 'blur' },
