@@ -27,9 +27,9 @@
             </el-table-column>
         </el-table>
         <!-- 添加用户的对话框 -->
-        <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%">
+        <el-dialog title="添加新用户" :visible.sync="dialogVisible" width="50%" @close="onDialogClosed">
             <!-- 添加用户的表单 -->
-            <el-form :model="form" label-width="80px" :rules="formRules">
+            <el-form :model="form" label-width="80px" :rules="formRules" ref="myaddForm">
                 <!-- 采集用户的姓名 -->
                 <el-form-item label="用户姓名" prop="name">
                 <el-input v-model="form.name"></el-input>
@@ -101,7 +101,12 @@ export default {
             if(res.status!==0) return console.log('用户列表数据请求失败!')
             this.userList=res.data
             console.log(this.userList)
-        }
+        },
+        // 监听对话框关闭的事件
+        onDialogClosed() {
+            // 拿到 Form 组件的引用，调用 resetFields 函数，即可重置表单
+            this.$refs.myaddForm.resetFields()
+        },
     }
 }
 </script>
