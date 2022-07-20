@@ -109,9 +109,14 @@ export default {
         },
         // 用户点击了添加按钮
         onAddNewUser() {
-            this.$refs.myaddForm.validate(valid => {
-                console.log(valid)
+            this.$refs.myaddForm.validate(async valid => {
                 if (!valid) return
+                // 需要执行添加的业务处理，this.form作为参数
+                const { data: res } = await this.$http.post('/api/users', this.form)
+                if (res.status !== 0) return this.$message.error('添加用户失败！')
+                this.$message.success('添加成功！')
+                this.dialogVisible = false
+                this.getUserList()  // 重新获取用户数据
             })
         },
     }
