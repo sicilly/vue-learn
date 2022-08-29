@@ -10,6 +10,13 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    // 第一个参数永远是state
+    add (state) {
+      state.count++
+    },
+    addN (state, step) {
+      state.count += step
+    }
   },
   actions: {
   },

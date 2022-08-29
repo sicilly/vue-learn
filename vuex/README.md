@@ -112,7 +112,13 @@ computed: {
 
 ### 3.2 Mutation
 
-用Vuex实例对象中的mutations，它保存了修改共享数据的方法，Mutation用于修改变更$store中的数据。使用方式：
+Mutation用于变更Store中的数据。
+①只能通过mutation变更Store数据，不可以直接操作Store中的数据。
+②通过这种方式虽然操作起来稍微繁琐一些，但是可以集中监控所有数据的变化。
+
+![image-20220829144332413](https://picture-1308610694.cos.ap-nanjing.myqcloud.com/202208291443466.png)
+
+可以在触发mutations时传递参数：
 1.打开store.js文件，在mutations中添加代码如下
 
 ```js
@@ -127,7 +133,7 @@ mutations: {
 
 2.触发mutation,然后在Addition.vue中给按钮添加事件代码如下：
 
-```
+```js
 <button @click="Add">+1</button>
 
 methods:{
@@ -142,7 +148,7 @@ methods:{
 
 this. $store. commit()是触发mutations的第一种方式， 触发mutations的第二种方式:
 
-```
+```js
 // 1.从vuex中按需导入mapMutations 函数
  import { mapMutations } from 'vuex'
 // 2.将指定的mutations 函数，映射为当前组件的methods 函数
