@@ -19,6 +19,11 @@ const routes = [
     path: '/setup',
     name: 'SetUp',
     component: () => import(/* webpackChunkName: "about" */ '../views/SetUp.vue')
+  },
+  {
+    path: '/comapi',
+    name: 'ComApi',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ComApi.vue')
   }
 ]
 

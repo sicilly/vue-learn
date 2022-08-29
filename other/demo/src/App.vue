@@ -1,10 +1,13 @@
 <template>
+<div>
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
-    <router-link to="/setup">入口Setup</router-link>
+    <router-link to="/setup">入口Setup</router-link> |
+    <router-link to="/comapi">常用API</router-link>
   </nav>
   <router-view/>
+</div>
 </template>
 
 <style lang="scss">

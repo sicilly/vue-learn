@@ -61,3 +61,16 @@ setup()函数是vue3中专门新增的方法，可以理解为composition api的
   },
 ```
 
+## Composition常用api
+
+ref() 函数用来给定的值创建一个响应式的数据对象， ref() 的返回值是一个对象， 这个对象上只包含一个.value属性 
+
+reactive是用来创建一个响应式对象 
+
+将ref响应式数据挂载到reactive中， 当把ref() 创建出来值直接挂载到 reactive() 中时， 会自动把响应式数据对象的展开为原始的值， 不需要通 过.value就可以直接访问到 
+
+双向绑定 
+
+to Refs() 解构响应式对象 
+
+readonly将响应式数据变回原始数据
