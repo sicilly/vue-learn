@@ -75,27 +75,42 @@ new Vue ({
 
 - 5.使用（注意格式$this.store.state.数据）
 
-## 3.3 Vuex中的核心特性
+## 3 Vuex中的核心概念
 
-### 3.3.1 State
+### 3.1 State
 
 - State提供唯一的公共数据源，所有共享的数据都要统一放到Store中的State中存储
 - 例如，打开项目中的store.js文件，在State对象中可以添加我们要共享的数据，如：count:0
 
 ```js
 //创建store数据源，提供唯一公共数据
- const store = new vuex. store ({
-                      state: { count: 0 }
+const store = new vuex. store ({
+	state: { count: 0 }
 })
 ```
 
-- 在组件中访问State的两种方式：
-  1).插值表达式，`this.$store.state.全局数据名称` 如：{{this.$store.state.count}}，template中this可以省略
-  2).先按需导入mapState函数：`import { mapState } from 'vuex'`
-  3).通过刚才导入的mapState函数, 然后数据映射为计算属性：`computed:{ ...mapState(['全局数据名称']) }`
-  //…是展开运算符的意思，把全局里面的数据映射为当前组件的computed计算属性。
+在组件中访问State的两种方式：
+方式一：
 
-### 3.3.2 Mutation
+```
+插值表达式，this.$store.state.全局数据名称
+
+如：{{this.$store.state.count}}，template中this可以省略
+```
+
+方式二：
+
+```js
+// 1. 从vuex中按需导入mapState函数
+import { mapState } from 'vuex'
+
+// 2. 将全局数据，映射为当前组件的计算属性
+computed: {
+	...mapState(['count'])
+}
+```
+
+### 3.2 Mutation
 
 用Vuex实例对象中的mutations，它保存了修改共享数据的方法，Mutation用于修改变更$store中的数据。使用方式：
 1.打开store.js文件，在mutations中添加代码如下
@@ -142,7 +157,7 @@ this. $store. commit()是触发mutations的第一种方式， 触发mutations的
   }
 ```
 
-### 3.3.3 Action
+### 3.3 Action
 
 - 在mutations中不能编写异步的代码，会导致vue调试器的显示出错。
 - 在vuex中我们可以使用Action来执行异步操作。但是在Action中不能直接修改state中的数据，还是要通过context.commit()触发某个Mutation的方式间接变更数据。操作步骤如下：
@@ -220,7 +235,7 @@ export default {
 }
 ```
 
-### 3.3.4 Getter
+### 3.4 Getter
 
 - Getter用于对Store中的数据进行加工处理形成新的数据，它只会包装Store中保存的数据，并不会修改Store中保存的数据，类似Vue的计算属性
 - 当Store中的数据发生变化时，Getter生成的内容也会随之变化。

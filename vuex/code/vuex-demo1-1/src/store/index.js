@@ -5,6 +5,7 @@ Vue.use(Vuex)
 // new了一个Vuex.Store构造函数的实例并暴露出去
 export default new Vuex.Store({
   state: {
+    count: 0 // 在全局提供一个共享的数据count
   },
   getters: {
   },
