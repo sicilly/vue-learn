@@ -9,6 +9,7 @@ export default new Vuex.Store({
   },
   getters: {
   },
+  // 只有mutations中定义的函数，才有权利修改state中的数据
   mutations: {
     // 第一个参数永远是state
     add (state) {
@@ -25,6 +26,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    addAsync (context) {
+      setTimeout(() => {
+        // 在actions中，不能直接修改state中的数据
+        // 必须通过context.commit()触发某个mutation才行
+        context.commit('add')
+      }, 1000)
+    },
+    addNAsync (context, step) {
+      setTimeout(() => {
+        context.commit('addN', step)
+      }, 1000)
+    }
   },
   modules: {
   }

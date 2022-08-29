@@ -170,18 +170,23 @@ methods:{
 
 - 在mutations中不能编写异步的代码，会导致vue调试器的显示出错。
 - 在vuex中我们可以使用Action来执行异步操作。但是在Action中不能直接修改state中的数据，还是要通过context.commit()触发某个Mutation的方式间接变更数据。操作步骤如下：
-  1.打开store.js文件，修改Action，如下：
 
-```
+触发actions的第一种方式：
+
+1.打开store.js文件，修改Action，如下：
+
+```js
 const store = new Vue.Store({
 mutations: {
     add(state){
       state.count++;
     }
   }
+// 定义actions
 actions: {
   addAsync(context){
     setTimeout(()=>{
+      // 触发mutations
       context.commit('add');
     },2000)
   }
@@ -191,7 +196,7 @@ actions: {
 
 2.触发，然后在Addition.vue中给按钮添加事件代码如下：
 
-```
+```js
 <button @click="AddAsync">...+1</button>
 
 methods:{
@@ -202,9 +207,9 @@ methods:{
 }
 ```
 
-参数的话：
+触发actions异步任务时携带参数：
 ![在这里插入图片描述](https://picture-1308610694.cos.ap-nanjing.myqcloud.com/202208271204170.png)
-触发第二种方式：
+触发actions的第二种方式：
 
 ```
 // 1.从vuex中按需导入mapActions 函数
