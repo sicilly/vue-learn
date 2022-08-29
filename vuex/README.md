@@ -211,10 +211,10 @@ methods:{
 ![在这里插入图片描述](https://picture-1308610694.cos.ap-nanjing.myqcloud.com/202208271204170.png)
 触发actions的第二种方式：
 
-```
+```js
 // 1.从vuex中按需导入mapActions 函数
 import { mapActions } from 'vuex'
-2.通过刚才导入的mapActions函数,将需要的actions函数，映射为当前组件的methods方法:
+// 2.通过刚才导入的mapActions函数,将需要的actions函数，映射为当前组件的methods方法:
 methods:{
   ...mapMutations(['subAsync'])
 }
