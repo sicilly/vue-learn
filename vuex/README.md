@@ -253,9 +253,10 @@ export default {
 
 - Getter用于对Store中的数据进行加工处理形成新的数据，它只会包装Store中保存的数据，并不会修改Store中保存的数据，类似Vue的计算属性
 - 当Store中的数据发生变化时，Getter生成的内容也会随之变化。
-  1.打开store.js文件，添加getters，如下：
 
-```
+1.打开store.js文件，添加getters，如下：
+
+```js
 export default new Vuex.Store({
   .......
   getters:{
@@ -267,15 +268,25 @@ export default new Vuex.Store({
 })
 ```
 
-2.然后打开Addition.vue中，触发，
+2.然后打开Addition.vue
+
+使用getters的第一种方式：
 
 - 添加插值表达式使用getters。
-  `<h3>{{$store.getters.showNum}}</h3>`
+  `{{this.$store.getters.showNum}}`
+
+使用getters的第二种方式：
+
 - 也可以在Addition.vue中，导入mapGetters，并将之映射为计算属性。
 
-```
+```js
 import { mapGetters } from 'vuex'
 computed:{
   ...mapGetters(['showNum'])
 }
 ```
+
+
+
+
+

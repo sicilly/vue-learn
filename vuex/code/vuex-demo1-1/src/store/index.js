@@ -8,6 +8,9 @@ export default new Vuex.Store({
     count: 0 // 在全局提供一个共享的数据count
   },
   getters: {
+    showNum (state) {
+      return '当前最新的数量是【' + state.count + '】'
+    }
   },
   // 只有mutations中定义的函数，才有权利修改state中的数据
   mutations: {
